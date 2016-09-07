@@ -7,6 +7,8 @@
             <p>Elige una de las 3 respuestas y trata de responder correctamente todas las preguntas!</p>
         </div>
         <div class="spacer" style="width: 300px; height: 30px;"></div>
-        <a ui-sref="mainTabs.trivia" id="game-button4" style="font-weight:500;color:#000000;font-size:25px;border-radius:25px 25px 25px 25px;" class="button button-energized  button-block">Comenzar</a>
+        <!-- <a ui-sref="mainTabs.trivia" id="game-button4" style="font-weight:500;color:#000000;font-size:25px;border-radius:25px 25px 25px 25px;" class="button button-energized  button-block">Comenzar</a> -->
+        <a ng-click="Jugar()" ng-disabled="PreguntasTrivia.length == 0" id="game-button4" style="font-weight:500;color:#000000;font-size:25px;border-radius:25px 25px 25px 25px;" class="button button-energized  button-block">Comenzar</a>
+        <div><ion-spinner icon="lines" class="spinner-energized" ng-show="PreguntasTrivia.length == 0"></ion-spinner></div>
     </ion-content>
 </ion-view>

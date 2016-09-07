@@ -53,7 +53,7 @@ angular.module('app.routes', [])
   })
 
   .state('mainTabs.trivia', {
-    url: '/Game/Trivia',
+    url: '/Game/:pregId',
     views: {
       'tab2': {
         templateUrl: 'templates/trivia.html',
