@@ -1,15 +1,10 @@
 <ion-view title="LeaderBoards" hide-nav-bar="true" id="page4" style="background-color:#365EFF;">
     <ion-content padding="true" style="background: url(img/pP1d6YVsSjmVXxf3X6ce_maxresdefault.jpg) no-repeat center;background-size:cover;" class="manual-ios-statusbar-padding">
         <h1 id="leaderBoards-heading1" style="color:#FFFFFF;text-align:center;">Leaderboards</h1>
-        <ion-list id="leaderBoards-list3">
-            <ion-item class="balanced  leaderItem" id="leaderBoards-list-item2">Item 1
-                <span class="item-note">999999</span>
-            </ion-item>
-            <ion-item class="balanced  leaderItem" id="leaderBoards-list-item8">Item 1
-                <span class="item-note">999999</span>
-            </ion-item>
-            <ion-item class="balanced  leaderItem" id="leaderBoards-list-item9">Item 1
-                <span class="item-note">999999</span>
+        <div><ion-spinner icon="lines" class="spinner-energized" ng-show="ListaUsuarios.length == 0"></ion-spinner></div>
+        <ion-list id="leaderBoards-list3" ng-show="ListaUsuarios.length != 0">
+            <ion-item class="balanced  leaderItem" ng-repeat="user in ListaUsuarios" id="leaderBoards-list-item2">{{user.nombre}}
+                <span class="item-note">{{user.puntaje}}</span>
             </ion-item>
         </ion-list>
     </ion-content>

@@ -52,6 +52,12 @@ angular.module('app.routes', [])
     controller: 'loginCtrl'
   })
 
+  .state('results', {
+    url: '/Results',
+    templateUrl: 'templates/results.html',
+    controller: 'resultsCtrl'
+  })
+
   .state('mainTabs.trivia', {
     url: '/Game/:pregId',
     views: {
