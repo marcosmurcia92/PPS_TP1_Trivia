@@ -22,6 +22,7 @@ angular.module('app.routes', [])
 
   .state('mainTabs.game', {
     url: '/Tabs/Game',
+    cache: false,
     views: {
       'tab2': {
         templateUrl: 'templates/game.html',
@@ -32,6 +33,7 @@ angular.module('app.routes', [])
 
   .state('mainTabs.leaderBoards', {
     url: '/Tabs/Leaderboards',
+    cache: false,
     views: {
       'tab3': {
         templateUrl: 'templates/leaderBoards.html',
@@ -48,18 +50,21 @@ angular.module('app.routes', [])
 
   .state('login', {
     url: '/Login',
+    cache: false,
     templateUrl: 'templates/login.html',
     controller: 'loginCtrl'
   })
 
   .state('results', {
     url: '/Results',
+    cache: false,
     templateUrl: 'templates/results.html',
     controller: 'resultsCtrl'
   })
 
   .state('mainTabs.trivia', {
     url: '/Game/:pregId',
+    cache: false,
     views: {
       'tab2': {
         templateUrl: 'templates/trivia.html',

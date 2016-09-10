@@ -13,12 +13,12 @@ angular.module('app.services', [])
 		login:function(user){
 			userName = user;
 		},
-		startGame:function(){
-			triviaResults = [];
+		startGame:function(length){
+			triviaResults = [length];
 			score = 0;
 		},
-		setResult:function(answer,correct){
-			triviaResults.push(answer);
+		setResult:function(answer,idx,correct){
+			triviaResults[idx] = answer;
 			if(correct == true){
 				score += 100;
 			}

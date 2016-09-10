@@ -8,13 +8,14 @@ function ($scope, $stateParams) {
 
 }])
    
-.controller('gameCtrl', ['$scope', '$state', '$stateParams' , '$timeout','UsuarioTrivia', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('gameCtrl', ['$scope', '$state', '$stateParams','$ionicHistory' , '$timeout','UsuarioTrivia', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $state, $stateParams, $timeout,UsuarioTrivia) {
+function ($scope, $state, $stateParams,$ionicHistory, $timeout,UsuarioTrivia) {
 $scope.PreguntasTrivia = [];
 	
 	$scope.init= function(){
+   		 $ionicHistory.clearHistory();
 		console.info("NOMBRE DE USUARIO", UsuarioTrivia.getName());
 			var VariableFireBase = new Firebase('https://tp-trivia-pps.firebaseio.com/TriviaData/');
 		  VariableFireBase.on('child_added', function (snapshot) {
@@ -28,7 +29,7 @@ $scope.PreguntasTrivia = [];
 	}
 
   $scope.Jugar = function(){
-  	UsuarioTrivia.startGame();
+  	UsuarioTrivia.startGame($scope.PreguntasTrivia.length);
   	$state.go('mainTabs.trivia',{pregId: $scope.PreguntasTrivia[0].id});
   };
 
@@ -44,28 +45,30 @@ function ($scope, $stateParams,$timeout) {
     $timeout(function(){
       var user = snapshot.val();
       $scope.ListaUsuarios.push(user);
+      
       //console.log($scope.ListaUsuarios);
     });
   });
 
 }])
       
-.controller('loginCtrl', ['$scope', '$state', '$stateParams','UsuarioTrivia', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('loginCtrl', ['$scope', '$state', '$stateParams','$ionicHistory','UsuarioTrivia', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $state, $stateParams,UsuarioTrivia) {
+function ($scope, $state, $stateParams,$ionicHistory,UsuarioTrivia) {
 
   $scope.Login = function(name){
   	console.log(name);
+        $ionicHistory.clearHistory();
   	UsuarioTrivia.login(name);
   	$state.go('mainTabs.game');
   };
 }])
    
-.controller('triviaCtrl', ['$scope','$state', '$stateParams', '$timeout','UsuarioTrivia',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('triviaCtrl', ['$scope','$state', '$stateParams','$ionicHistory', '$timeout','UsuarioTrivia',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope,$state, $stateParams, $timeout,UsuarioTrivia) {
+function ($scope,$state, $stateParams,$ionicHistory, $timeout,UsuarioTrivia) {
 	$scope.PreguntasTrivia = [];
 	$scope.IdxActual;
 	$scope.TotalPregs;
@@ -80,6 +83,7 @@ function ($scope,$state, $stateParams, $timeout,UsuarioTrivia) {
 	$scope.CanInteract = true;
 
 	$scope.init= function(){
+        $ionicHistory.clearHistory();
 		var VariableFireBase = new Firebase('https://tp-trivia-pps.firebaseio.com/TriviaData/');
 	  VariableFireBase.on('child_added', function (snapshot) {
 	    $timeout(function(){
@@ -109,7 +113,7 @@ function ($scope,$state, $stateParams, $timeout,UsuarioTrivia) {
   		if($scope.CanInteract){
   			$scope.CanInteract = false;
 	  		if ($answer == $scope.OpcCorrecta) {
-	  			UsuarioTrivia.setResult($answer,true);
+	  			UsuarioTrivia.setResult($answer,$scope.IdxActual,true);
 	  			if($answer == 'A'){
 	  				$scope.OpcAStyle = 'button-balanced';
 	  			}else if($answer == 'B'){
@@ -118,7 +122,7 @@ function ($scope,$state, $stateParams, $timeout,UsuarioTrivia) {
 	  				$scope.OpcCStyle = 'button-balanced';
 	  			}
 	  		}else{
-	  			UsuarioTrivia.setResult($answer,false);
+	  			UsuarioTrivia.setResult($answer,$scope.IdxActual,false);
 	  			if($answer == 'A'){
 	  				$scope.OpcAStyle = 'button-assertive';
 	  			}else if($answer == 'B'){
@@ -155,17 +159,17 @@ function ($scope,$state, $stateParams, $timeout,UsuarioTrivia) {
 
 }])
    
-.controller('resultsCtrl', ['$scope', '$stateParams', 'UsuarioTrivia',  // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('resultsCtrl', ['$scope', '$stateParams','$ionicHistory', 'UsuarioTrivia',  // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, UsuarioTrivia) {
+function ($scope, $stateParams,$ionicHistory, UsuarioTrivia) {
 
-	$scope.puntajeTotal = -1;
-
+    $ionicHistory.clearHistory();
 	var VariableFireBase = new Firebase('https://tp-trivia-pps.firebaseio.com/Usuarios/');
     var name = UsuarioTrivia.getName();
     var results = UsuarioTrivia.getTriviaResults();
     var score = UsuarioTrivia.getScore();
+    $scope.puntajeTotal = score;
     console.log(name);
     VariableFireBase.push({usuario:name, puntaje:score, resultados:results},function(error){
     	if(error){
@@ -173,7 +177,6 @@ function ($scope, $stateParams, UsuarioTrivia) {
     	}else{
     		console.log("EXITOSO");
     	}
-    	$scope.puntajeTotal = score;
     });
 }])
  

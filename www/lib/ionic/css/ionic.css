@@ -5645,14 +5645,14 @@ ion-tabs.tabs-color-active-dark .tab-item {
  */
 .item {
   border-color: #ddd;
-  background-color: #fff;
+  background-color: rgba(0,0,0,0.5);
   color: #444;
   position: relative;
   z-index: 2;
   display: block;
   margin: -1px;
   padding: 16px;
-  border-width: 1px;
+  border-width: 2px;
   border-style: solid;
   font-size: 16px; }
   .item h2 {
@@ -7607,7 +7607,7 @@ textarea {
   padding: 7px 10px 7px 0px;
   max-width: 200px;
   width: 35%;
-  color: #444;
+  color: #33cd5f;
   font-size: 16px; }
 
 .placeholder-icon {
